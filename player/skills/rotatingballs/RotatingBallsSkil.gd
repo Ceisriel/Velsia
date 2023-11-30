@@ -9,6 +9,9 @@ onready var cooldown_timer = $Cooldown
 var rotatingBallsInstance = null
 var has_skill = false
 var skill_cooldown = 25.0  # Set the default cooldown time in seconds
+var burn_damage = 1
+var burn_interval = 1
+var damage = 1
 
 func _ready():
 	cooldown_timer.connect("timeout", self, "_on_cooldown_timeout")
@@ -17,6 +20,9 @@ func cooldownMultiplier():
 	skill_cooldown = 25.0 / stats.intelligence 
 
 func _process(delta):
+	burn_damage = stats.intelligence * 3.333
+	burn_interval = 3 / stats.intelligence
+	damage = stats.intelligence * 1.15	
 	if Input.is_action_just_pressed("Q"):
 		toggleRotatingBalls()
 
@@ -56,7 +62,10 @@ func dropRotatingBalls():
 
 		# Set the new position in front of the camera
 		new_fireballR.translation = camera_position + camera_forward * spawn_distance
-
+		#new_fireballR.interval =  burn_interval # bugged 
+		new_fireballR.burn_damage =  burn_damage
+		new_fireballR.damage =  damage
+		new_fireballR.rotation_speed =  stats.intelligence * 1.5	
 		# Add the new fireball as a child of the root node
 		get_tree().root.add_child(new_fireballR)
 
@@ -64,5 +73,4 @@ func dropRotatingBalls():
 func _on_cooldown_timeout():
 	# The cooldown timer has finished, allowing the skill to be used again
 	cooldown_timer.stop()
-
 

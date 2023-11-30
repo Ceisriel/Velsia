@@ -2,11 +2,15 @@ extends KinematicBody
 
 var damage = 12
 const speed = 500  # Adjust the speed as needed
+var burn_damage = 1
+var burn_duration = 3
+var burn_interval = 3
+var rotation_speed = 1 
 var player = get_parent()
 func _ready():
 	set_as_toplevel(true)
 
-func shoot_fireball(target_direction: Vector3):
+func shoot_fireball(direction):
 	var velocity = player.direction.normalized() * speed
 	move_and_slide(velocity)
 

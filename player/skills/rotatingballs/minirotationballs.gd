@@ -1,9 +1,13 @@
 extends KinematicBody
 
+onready var burn = preload("res://player/skills/Burning/Burning.tscn")
 onready var parent = get_parent()
-
+onready var area = $Area
 var damage = 1
 var rotation_speed = 1
+var dot = 5
+var interval = 1
+var duration = 5
 
 func _process(delta):
 	damage = parent.damage * 2

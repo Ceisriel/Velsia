@@ -1,0 +1,76 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://RGB_beca35af563247859e8f57a00880aaf4_Ground_SuperheatedRock_2k_e.jpg" type="Texture" id=1]
+[ext_resource path="res://player/skills/Burning/Burning.gd" type="Script" id=2]
+
+[sub_resource type="BoxShape" id=1]
+
+[sub_resource type="PrismMesh" id=2]
+
+[sub_resource type="SpatialMaterial" id=3]
+flags_unshaded = true
+albedo_texture = ExtResource( 1 )
+
+[node name="Fire" type="Spatial"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.844762, 0 )
+script = ExtResource( 2 )
+
+[node name="Area" type="Area" parent="."]
+
+[node name="CollisionShape" type="CollisionShape" parent="Area"]
+shape = SubResource( 1 )
+
+[node name="DamageInterval" type="Timer" parent="Area"]
+autostart = true
+
+[node name="Duration" type="Timer" parent="Area"]
+wait_time = 3.0
+autostart = true
+
+[node name="MeshInstance" type="MeshInstance" parent="Area"]
+transform = Transform( 0.575438, 0, 0, 0, 0.563909, 0, 0, 0, 0.549625, 0, 0, 0 )
+mesh = SubResource( 2 )
+material/0 = SubResource( 3 )
+
+[node name="MeshInstance2" type="MeshInstance" parent="Area"]
+transform = Transform( 0.575438, 0, 0, 0, 0.563909, 0, 0, 0, 0.549625, -1.75515, 0, 0 )
+mesh = SubResource( 2 )
+material/0 = SubResource( 3 )
+
+[node name="MeshInstance3" type="MeshInstance" parent="Area"]
+transform = Transform( 0.575438, 0, 0, 0, 0.563909, 0, 0, 0, 0.549625, 1.62302, 0, 0 )
+mesh = SubResource( 2 )
+material/0 = SubResource( 3 )
+
+[node name="MeshInstance4" type="MeshInstance" parent="Area"]
+transform = Transform( 0.0177838, 0, 0.549363, 0, 0.563909, 0, -0.575163, 0, 0.0169861, -0.118263, 0, 1.68828 )
+mesh = SubResource( 2 )
+material/0 = SubResource( 3 )
+
+[node name="MeshInstance5" type="MeshInstance" parent="Area"]
+transform = Transform( 0.0177838, 0, 0.549363, 0, 0.563909, 0, -0.575163, 0, 0.0169861, -0.0138613, 0, -1.68828 )
+mesh = SubResource( 2 )
+material/0 = SubResource( 3 )
+
+[node name="MeshInstance6" type="MeshInstance" parent="Area"]
+transform = Transform( 0.575438, 0, 0, 0, 0.563909, 0, 0, 0, 0.549625, -1.75515, 1.36669, 0 )
+mesh = SubResource( 2 )
+material/0 = SubResource( 3 )
+
+[node name="MeshInstance7" type="MeshInstance" parent="Area"]
+transform = Transform( 0.575438, 0, 0, 0, 0.563909, 0, 0, 0, 0.549625, 1.62302, 1.36669, 0 )
+mesh = SubResource( 2 )
+material/0 = SubResource( 3 )
+
+[node name="MeshInstance8" type="MeshInstance" parent="Area"]
+transform = Transform( 0.0177838, 0, 0.549363, 0, 0.563909, 0, -0.575163, 0, 0.0169861, -0.118263, 1.36669, 1.68828 )
+mesh = SubResource( 2 )
+material/0 = SubResource( 3 )
+
+[node name="MeshInstance9" type="MeshInstance" parent="Area"]
+transform = Transform( 0.0177838, 0, 0.549363, 0, 0.563909, 0, -0.575163, 0, 0.0169861, -0.0138613, 1.36669, -1.68828 )
+mesh = SubResource( 2 )
+material/0 = SubResource( 3 )
+
+[connection signal="timeout" from="Area/DamageInterval" to="." method="_on_DamageInterval_timeout"]
+[connection signal="timeout" from="Area/Duration" to="." method="_on_Duration_timeout"]

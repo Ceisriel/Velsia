@@ -7,7 +7,7 @@ const speed = 5
 func _ready():
 	set_as_toplevel(true)
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	var camera = get_viewport().get_camera()
 	if camera:
 		var direction = -camera.global_transform.basis.z.normalized()

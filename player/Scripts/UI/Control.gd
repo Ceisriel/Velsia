@@ -32,7 +32,7 @@ func _on_AgiMin_pressed():
 func _on_IntPlus_pressed():
 	if stats.attribute > 0:
 		stats.attribute -= 0
-		stats.intelligence += 100000
+		stats.intelligence += 0.55
 
 func _on_IntMin_pressed():
 	if stats.attribute > 0.11:

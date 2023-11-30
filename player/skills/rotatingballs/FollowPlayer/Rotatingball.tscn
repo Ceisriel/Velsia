@@ -74,6 +74,7 @@ material/0 = SubResource( 69 )
 [node name="CollisionShape" type="CollisionShape" parent="balls3/Area"]
 shape = SubResource( 6 )
 
+[connection signal="body_entered" from="balls/Area" to="." method="_on_Area_body_entered"]
 [connection signal="body_entered" from="balls/Area" to="balls" method="_on_Area_body_entered"]
 [connection signal="body_entered" from="balls4/Area" to="balls" method="_on_Area_body_entered"]
 [connection signal="body_entered" from="balls2/Area" to="balls" method="_on_Area_body_entered"]
