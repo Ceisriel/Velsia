@@ -1,0 +1,41 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://RGB_29bf00c5304b4907aef770df613b701c_base_em-tga.jpg" type="Texture" id=1]
+[ext_resource path="res://player/skills/fireball/fireball.gd" type="Script" id=2]
+
+[sub_resource type="BoxShape" id=1]
+extents = Vector3( 0.123855, 0.295793, 0.237179 )
+
+[sub_resource type="SphereMesh" id=4]
+
+[sub_resource type="SpatialMaterial" id=5]
+flags_unshaded = true
+albedo_texture = ExtResource( 1 )
+
+[sub_resource type="BoxShape" id=3]
+extents = Vector3( 0.27494, 0.312587, 1 )
+
+[node name="Fireball" type="RigidBody"]
+script = ExtResource( 2 )
+
+[node name="CollisionShape" type="CollisionShape" parent="."]
+transform = Transform( 0.98223, 0, 0, 0, 0.696806, 0, 0, 0, 0.98223, 0, 0, 0 )
+shape = SubResource( 1 )
+
+[node name="MeshInstance" type="MeshInstance" parent="CollisionShape"]
+transform = Transform( 0.204674, 0, 0, 0, 0.306275, 0, 0, 0, 0.194408, 0, 0, 0 )
+mesh = SubResource( 4 )
+material/0 = SubResource( 5 )
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 12.0
+autostart = true
+
+[node name="Area" type="Area" parent="."]
+
+[node name="CollisionShape" type="CollisionShape" parent="Area"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 0.364873, 0, 0, 0 )
+shape = SubResource( 3 )
+
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
+[connection signal="body_entered" from="Area" to="." method="_on_Area_body_entered"]

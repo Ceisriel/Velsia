@@ -1,0 +1,30 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://player/Scripts/CameraM.gd" type="Script" id=1]
+
+[node name="Mnimap" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="ViewportContainer" type="ViewportContainer" parent="."]
+anchor_left = 0.95
+anchor_top = 0.00740741
+anchor_right = 0.955208
+anchor_bottom = 0.0166667
+margin_left = -360.0
+margin_right = -320.0
+margin_bottom = 40.0
+rect_scale = Vector2( 8.98068, 6.9 )
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="Viewport" type="Viewport" parent="ViewportContainer"]
+size = Vector2( 50, 50 )
+handle_input_locally = false
+render_target_update_mode = 3
+
+[node name="Camera" type="Camera" parent="ViewportContainer/Viewport"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 17.2418, 0 )
+projection = 1
+script = ExtResource( 1 )
