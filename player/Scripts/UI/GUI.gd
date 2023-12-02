@@ -1,6 +1,6 @@
 extends Node
 
-onready var health_label = $"../HPLabel"
+onready var health_label = $"../FPS/Labels/HPLabel"
 onready var parent: Node = get_parent()
 onready var stats = $"../Stats"
 

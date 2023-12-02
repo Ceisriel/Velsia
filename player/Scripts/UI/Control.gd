@@ -5,10 +5,8 @@ onready var agilabel = $inventory/Agi/AgiLabel
 onready var intlabel = $inventory/Int/IntLabel
 onready var stats =  $".."
 
-func _physics_process(_delta):
-	updateattributes()
-	if Input.is_action_just_pressed("inventory"):
-		self.visible = !self.visible
+
+
 		
 
 
@@ -38,12 +36,7 @@ func _on_IntMin_pressed():
 	if stats.attribute > 0.11:
 		stats.attribute += 1
 		stats.intelligence -= 0.025
-		
-		
-func _on_Process_timeout():
-	updateattributes()
-
-
+	
 
 
 

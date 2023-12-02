@@ -5,8 +5,10 @@ onready var parent: Node = get_parent()
 onready var parent_mesh = $"../Hunter"
 onready var camera = $"../Camroot"
 var model0: PackedScene = preload("res://creature/horses/horse.tscn")
+var model1: PackedScene = preload("res://creature/dinosaurus/pacyrinosaurus/pachy.tscn")
 var currentInstance: Node = null  
 var has_model0 = false
+var has_model1 = false
 var has_ride = false
 
 
@@ -17,6 +19,13 @@ func _on_Detector_body_entered(body):
 				has_model0 = true
 				check_and_delete(body)
 				has_ride = true
+				
+		if body.is_in_group("Pachyrhinosaurus"):
+			if Input.is_action_pressed("E"):
+				has_model1 = true
+				check_and_delete(body)
+				has_ride = true				
+				
 func ready():
 	switch()
 func switch():
@@ -30,6 +39,17 @@ func switch():
 			# Add the horse as a child of the attachment node
 			parent_mesh.add_child(currentInstance)
 			print("Player has horse")
+	elif has_model1:
+		# Check if there is no current horse instance
+		if currentInstance == null:
+			# Instantiate the horse scene
+			currentInstance = model1.instance()
+			# Set the scale of the horse
+			currentInstance.scale *= Vector3(1, 1, 1)
+			# Add the horse as a child of the attachment node
+			parent_mesh.add_child(currentInstance)
+			print("Player has Pachyrhinosaurus")			
+			
 func drop():
 	if currentInstance != null:
 		# Remove the instanced model from the attachment
@@ -47,6 +67,7 @@ func drop():
 		print("Horse dropped")
 		# Reset variables
 		has_model0 = false
+		has_model1 = false
 		currentInstance = null
 		has_ride = false
 		

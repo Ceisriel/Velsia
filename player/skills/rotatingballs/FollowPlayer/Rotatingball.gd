@@ -12,6 +12,9 @@ var rotation_speed = 1
 var burning_instance = null
 
 func _ready():
+	# Asynchronously load the Burning scene
+	load("res://player/skills/Burning/Burning.tscn")
+	
 	# Find the child node named "Stats"
 	stats = parent.get_node("Stats")
 	if stats:
@@ -45,9 +48,6 @@ func _process(delta):
 
 func _on_Area_body_entered(body):
 	if body.is_in_group("Enemy"):
-		# Asynchronously load the Burning scene
-		load("res://player/skills/Burning/Burning.tscn")
-
 		# Create an instance of the Burning scene when the loading is complete
 		burning_instance = load("res://player/skills/Burning/Burning.tscn").instance()
 
@@ -56,5 +56,6 @@ func _on_Area_body_entered(body):
 		burning_instance.duration =  burn_duration
 		burning_instance.burn_interval =  burn_interval
 		# Add the Burning instance to the enemy
-		body.add_child(burning_instance)
+		if body.active:
+			body.add_child(burning_instance)
 

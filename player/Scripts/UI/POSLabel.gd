@@ -2,7 +2,7 @@ extends Label
 
 func _process(_delta):
 	# Get the parent node
-	var parent_node = get_parent()
+	var parent_node = $"../../.."
 	# Display parent node position rounded to 2 decimals
 	var parent_position = parent_node.global_transform.origin
 	var rounded_position = Vector3(
