@@ -112,7 +112,7 @@ func ToggleUI():
 	
 func movement():	
 	var h_rot = $Camroot/h.global_transform.basis.get_euler().y
-	if Input.is_action_pressed("forward") or Input.is_action_pressed("backward") or Input.is_action_pressed("left") or Input.is_action_pressed("right"):
+	if Input.is_action_pressed("forward") or Input.is_action_pressed("backward") or Input.is_action_pressed("left") or Input.is_action_pressed("right") or Input.is_action_pressed("attack"):
 		direction = Vector3(Input.get_action_strength("left") - Input.get_action_strength("right"),
 					0,
 					Input.get_action_strength("forward") - Input.get_action_strength("backward"))
