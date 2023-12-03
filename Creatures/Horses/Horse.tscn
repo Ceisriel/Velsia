@@ -1,0 +1,59 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://Creatures/Horses/Horse.gd" type="Script" id=1]
+
+[sub_resource type="BoxShape" id=1]
+
+[sub_resource type="CubeMesh" id=2]
+
+[sub_resource type="ViewportTexture" id=3]
+viewport_path = NodePath("InfoSprite/View")
+
+[sub_resource type="PrismMesh" id=4]
+
+[sub_resource type="SpatialMaterial" id=5]
+flags_transparent = true
+flags_unshaded = true
+params_blend_mode = 3
+albedo_color = Color( 1, 0, 0, 1 )
+
+[node name="Horse" type="KinematicBody" groups=["Enemy", "Horse"]]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.02322, 0 )
+script = ExtResource( 1 )
+
+[node name="CollisionShape" type="CollisionShape" parent="." groups=["Enemy", "Horse"]]
+shape = SubResource( 1 )
+
+[node name="MeshInstance" type="MeshInstance" parent="." groups=["Enemy", "Horse"]]
+mesh = SubResource( 2 )
+
+[node name="FPS" type="Timer" parent="."]
+wait_time = 0.075
+autostart = true
+
+[node name="InfoSprite" type="Spatial" parent="."]
+transform = Transform( 0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, -1.76099, 1.41403, -1.38679 )
+
+[node name="View" type="Viewport" parent="InfoSprite"]
+size = Vector2( 300, 80 )
+transparent_bg = true
+
+[node name="Sprite3D" type="Sprite3D" parent="InfoSprite"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.28586, 0.0673618, 1.76994 )
+flip_v = true
+billboard = 2
+texture = SubResource( 3 )
+
+[node name="Burning" type="Spatial" parent="."]
+visible = false
+
+[node name="Fire" type="MeshInstance" parent="Burning"]
+transform = Transform( 0.727904, 0, 0, 0, 1, 0, 0, 0, 0.383861, 0, 1.74951, 0 )
+mesh = SubResource( 4 )
+material/0 = SubResource( 5 )
+
+[node name="BurnTimer" type="Timer" parent="Burning"]
+
+[connection signal="timeout" from="FPS" to="." method="_on_FPS_timeout"]
+[connection signal="timeout" from="Burning/BurnTimer" to="." method="_on_BurnTimer_timeout"]
+[connection signal="timeout" from="Burning/BurnTimer" to="Burning" method="_on_BurnTimer_timeout"]
