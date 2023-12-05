@@ -9,10 +9,10 @@ onready var camera = get_node("Camroot/h/v/Camera")
 onready var camera_h_control =  get_node("Camroot/h")
 onready var collision_torso =  get_node("CollisonTorso")
 onready var stun = get_node("GetStunned")
+onready var player_mesh = get_node("Mesh")
+
 
 var velocity := Vector3()
-# Allows to pick your character's mesh from the inspector
-onready var player_mesh = get_node("Mesh")
 # movement variables
 export var gravity = 9.8
 export var jump_force = 5
@@ -155,6 +155,7 @@ func dodgeBack():#Doddge when in strafe mode
 		if Input.is_action_just_pressed("backward"):
 			dash_countback += 1
 		if dash_countback == 2 and dash_timerback < double_press_time:
+			stats.resolve -= 0.5 
 			horizontal_velocity = direction * dash_power
 			backstep = true
 			collision_torso.disabled = true
@@ -172,6 +173,7 @@ func dodgeFront():#Dodge when in strafe mode
 		if Input.is_action_just_pressed("forward"):
 			dash_countforward += 1
 		if dash_countforward == 2 and dash_timerforward < double_press_time:
+			stats.resolve -= 0.5 
 			horizontal_velocity = direction * dash_power *1.5
 			frontstep = true
 			collision_torso.disabled = true
@@ -189,6 +191,7 @@ func dodgeLeft():#Dodge when in strafe mode
 		if Input.is_action_just_pressed("left"):
 			dash_countleft += 1
 		if dash_countleft == 2 and dash_timerleft < double_press_time:
+			stats.resolve -= 0.5 
 			horizontal_velocity = direction * dash_power
 			collision_torso.disabled = true
 			enabled_climbing = false
@@ -206,6 +209,7 @@ func dodgeRight():#Dodge when in strafe mode
 		if Input.is_action_just_pressed("right"):
 			dash_countright += 1
 		if dash_countright == 2 and dash_timerright < double_press_time :
+			stats.resolve -= 0.5 
 			horizontal_velocity = direction * dash_power
 			collision_torso.disabled = true
 			enabled_climbing = false
@@ -310,10 +314,11 @@ func walksound():
 func _on_FPS_timeout(): #artificial _process() using a timer 
 	if not stun.is_stunned:
 			jump()
-			dodgeBack()
-			dodgeFront()
-			dodgeLeft()
-			dodgeRight()	
+			if stats.resolve > 0.5: 
+				dodgeBack()
+				dodgeFront()
+				dodgeLeft()
+				dodgeRight()	
 			movement()
 			climbing()
 			teleport()

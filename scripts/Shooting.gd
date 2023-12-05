@@ -10,6 +10,7 @@ var original_rotation = Vector3.ZERO
 var current_recoil_angle = 0
 
 onready var parent = get_parent()
+onready var stats = get_parent().get_node("Stats")
 onready var aim = $"../Camroot/h/v/Camera/Aim"
 onready var camera = $"../Camroot/h/v/Camera"
 
@@ -21,26 +22,29 @@ var duration = 5
 
 
 func shoot():
-	if Input.is_action_pressed("attack") or Input.is_action_just_pressed("attack"):
-		parent.is_attacking = true
-		# Clear any previous exceptions
-		aim.clear_exceptions()
+	if stats.energy > 0.25:
+		
+		if Input.is_action_pressed("attack") or Input.is_action_just_pressed("attack"):
+			stats.energy -= 0.25
+			parent.is_attacking = true
+			# Clear any previous exceptions
+			aim.clear_exceptions()
 
-		# Add your own body to the exceptions
-		aim.add_exception($"..")
+			# Add your own body to the exceptions
+			aim.add_exception($"..")
 
-		if aim.is_colliding():
-			var body = aim.get_collider()
-			if body.is_in_group("Enemy"):
-				var body_stats = body.get_node("Stats")
-				var info_sprite = body.get_node("InfoSprite")
-				body_stats.health -= damage
-				info_sprite.showDamageTaken(damage)
+			if aim.is_colliding():
+				var body = aim.get_collider()
+				if body.is_in_group("Enemy"):
+					var body_stats = body.get_node("Stats")
+					var info_sprite = body.get_node("InfoSprite")
+					body_stats.health -= damage
+					info_sprite.showDamageTaken(damage)
 
 
-	else:
-		parent.is_aiming = false
-		parent.is_attacking = false
+		else:
+			parent.is_aiming = false
+			parent.is_attacking = false
 func recoil():
 	camera.rotation_degrees.x += recoil_angle
 	current_recoil_angle = recoil_angle	

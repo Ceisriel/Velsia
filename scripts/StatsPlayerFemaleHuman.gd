@@ -2,87 +2,141 @@ extends Node
 
 #crude stats
 var health = 100
+const base_health = 100
 var max_health = 100
+const base_max_health = 100
 var energy = 100
 var max_energy = 100
+const base_max_energy = 100
 var resolve = 100
 var max_resolve = 100
+const base_max_resolve = 100
+
 var weight = 120
 var walk_speed = 3 
 var run_speed = 6
 var climb_speed = 1.5
 var jumping_power = 5
 var dash_power = 12
-var attribute = 10
+var attribute = 100000000
+var spent_attribute_points = 0
 var defense =  10
-#stored 
-var st_health = health
-var st_max_health = max_health
-var st_energy = max_energy
-var st_max_energy = max_energy
-var st_resolve = resolve
-var st_max_resolve =  max_resolve
-var st_weight = weight
-var st_walk_speed = walk_speed
-var st_run_speed = run_speed
-var st_climb = climb_speed
-var st_jumping_power = jumping_power
-var st_dash_power = dash_power
-var st_defense = defense
+var coordination = 1
 
-var accuracy = 1
-var acrobatics = 1.25
-var agility = 1
-var athletics = 1
-var balance = 1
-var charisma = 1
-var cooridnation = 1
-var dexterity = 1
-var endurance = 1
-var flexibility = 1
-var focus = 1
-var impact = 1
-var intelligence = 1
-var loyalty = 1
-var power = 1
-var purity = 1
-var recovery = 4.5
-var resilience = 1
-var resistance = 1
-var strength = 1.5
-var vitality = 1
-var willpower = 1
+var creativity = 1
 var wisdom = 1
+var memory = 1
+var intelligence = 1
+var willpower = 1
+
+var power = 1
+var strength = 1.5
+var impact = 1
+var resistance = 1
 var tenacity = 1
 
+var accuracy = 1
+var dexterity = 1
 
-#player attributes but stored, must have to update attributes with weapons and armors
+var balance = 1
+var focus = 1
+
+var acrobatics = 1
+var agility = 1
+var athletics = 1
+var flexibility = 1
+var placeholder_ = 1
+
+var endurance = 1
+var stamina = 1
+var vitality = 1
+var vigor = 1
+var recovery = 1
+
+var charisma = 1
+var loyalty = 1 
+var diplomacy = 1
+var leadership = 1
+var empathy = 1
+
+
+
+#Leveling compounding attributes 
+var spent_attribute_points_cre = 0
+var spent_attribute_points_wis = 0
+var spent_attribute_points_mem = 0
+var spent_attribute_points_int = 0
+var spent_attribute_points_wil = 0
+
+var spent_attribute_points_pow = 0
+var spent_attribute_points_str = 0
+var spent_attribute_points_imp = 0
+var spent_attribute_points_res = 0
+var spent_attribute_points_ten = 0
+
+var spent_attribute_points_acc = 0
+var spent_attribute_points_dex = 0
+
+var spent_attribute_points_bal = 0
+var spent_attribute_points_foc = 0
+
+var spent_attribute_points_acr = 0
+var spent_attribute_points_agi = 0
+var spent_attribute_points_ath = 0
+var spent_attribute_points_fle = 0
+#var placeholder_
+
+var spent_attribute_points_end = 0
+var spent_attribute_points_sta = 0
+var spent_attribute_points_vit = 0
+var spent_attribute_points_vig = 0
+var spent_attribute_points_rec = 0
+
+var spent_attribute_points_cha = 0
+var spent_attribute_points_loy = 0 
+var spent_attribute_points_dip = 0
+var spent_attribute_points_lea = 0
+var spent_attribute_points_emp = 0
+
+
+#_______stored______
+var st_charisma = charisma
+var st_loyalty =  loyalty
+var st_diplomacy = diplomacy
+var st_leadership = leadership
+var st_empathy = empathy
+
 var st_accuracy = accuracy
+var st_dexterity = dexterity
+var st_coordination = coordination
+var st_balance = balance
+var st_focus = focus
+
+var st_endurance = endurance
+var st_stamina = stamina
+var st_vitality = vitality
+var st_vigor = vigor
+var st_recovery = recovery
+
 var st_acrobatics = acrobatics
 var st_agility = agility
 var st_athletics = athletics
-var st_dexterity = dexterity
-var st_endurance = endurance
-var st_focus = focus
-var st_impact = impact
-var st_intelligence = intelligence
-var st_power = power
-var st_recovery = recovery
-var st_resistance = resistance
-var st_strength = strength
-var st_vitality = vitality
-var st_wisdom = wisdom
-var st_balance = balance
-var st_coordination = cooridnation
-var st_charisma = charisma
-var st_willpower = willpower 
-var st_resilience = resilience
 var st_flexibility = flexibility
-var st_purity = purity
-var st_loyalty = loyalty 
+var st_placeholder = placeholder_
+
+
+var st_power = power
+var st_strength = strength
+var st_impact = impact
+var st_resistance = resistance
 var st_tenacity = tenacity
 
-func updateAttributes():
-	climb_speed = st_climb * strength
-	dash_power = st_dash_power * agility
-	run_speed = st_run_speed * agility
+var st_creativity = creativity
+var st_wisdom = wisdom
+var st_memory = memory
+var st_intelligence = intelligence
+var st_willpower = willpower
+
+
+
+
