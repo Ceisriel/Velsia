@@ -3,6 +3,6 @@
 [ext_resource path="res://UI/fonts/caprasimo/Caprasimo-Regular.ttf" type="DynamicFontData" id=1]
 
 [resource]
-size = 9
+size = 12
 outline_size = 1
 font_data = ExtResource( 1 )

@@ -4,7 +4,9 @@
 [ext_resource path="res://player/scripts/floatingtext.gd" type="Script" id=2]
 
 [sub_resource type="DynamicFont" id=1]
+size = 50
 outline_color = Color( 0.937255, 0.937255, 0.937255, 1 )
+use_filter = true
 font_data = ExtResource( 1 )
 
 [node name="floatingtext" type="Position2D"]
@@ -26,7 +28,12 @@ stretch_mode = 4
 [node name="Label" type="Label" parent="TextureRect"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+margin_left = -15.5422
+margin_top = 2.75861
+margin_right = 44.4578
+margin_bottom = 5.75861
 rect_min_size = Vector2( 100, 25 )
+rect_scale = Vector2( 0.71397, 0.729305 )
 size_flags_vertical = 1
 size_flags_stretch_ratio = 0.0
 custom_colors/font_color = Color( 0.0941176, 0.607843, 0.176471, 1 )
