@@ -72,7 +72,6 @@ func savePlayerData():
 		"empathy": stats.empathy,
 
 #crude stats
-		"health_percent": stats.health_percent,
 		"health": stats.health,
 		"energy": stats.energy,
 		"resolve": stats.resolve,

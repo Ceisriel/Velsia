@@ -10,7 +10,7 @@ onready var camera_h_control =  get_node("Camroot/h")
 onready var collision_torso =  get_node("CollisonTorso")
 onready var stun = get_node("GetStunned")
 onready var player_mesh = get_node("Mesh")
-
+var has_sword = false 
 
 var velocity := Vector3()
 # movement variables
@@ -268,7 +268,7 @@ func stiffCamera():
 			player_mesh.rotation.y = lerp_angle(player_mesh.rotation.y, atan2(direction.x, direction.z) - rotation.y, FPS * angular_acceleration)	
 func jump():
 	if Input.is_action_pressed("jump") and is_on_floor():
-		vertical_velocity = Vector3.UP * jump_force * 2.5
+		vertical_velocity = Vector3.UP * jump_force * 3
 	if Input.is_action_pressed("jump") and is_swimming:
 		vertical_velocity = Vector3.UP * 5
 func _on_WaterDetector_area_entered(area):
@@ -328,3 +328,5 @@ func _on_FPS_timeout(): #artificial _process() using a timer
 	gravity()
 	interpol()	
 	walksound()
+
+

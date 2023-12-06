@@ -29,10 +29,8 @@ func shoot():
 			parent.is_attacking = true
 			# Clear any previous exceptions
 			aim.clear_exceptions()
-
 			# Add your own body to the exceptions
 			aim.add_exception($"..")
-
 			if aim.is_colliding():
 				var body = aim.get_collider()
 				if body.is_in_group("Enemy"):
@@ -40,24 +38,9 @@ func shoot():
 					var info_sprite = body.get_node("InfoSprite")
 					body_stats.health -= damage
 					info_sprite.showDamageTaken(damage)
-
-
 		else:
 			parent.is_aiming = false
 			parent.is_attacking = false
-func recoil():
-	camera.rotation_degrees.x += recoil_angle
-	current_recoil_angle = recoil_angle	
-func _physics_process(delta):
-
-	if current_recoil_angle > 0:
-		# Interpolate the camera's rotation back to the original position
-		var interpolation_amount = recoil_speed * get_process_delta_time()
-		camera.rotation_degrees = camera.rotation_degrees.linear_interpolate(original_rotation, interpolation_amount)
-		
-		current_recoil_angle -= interpolation_amount
-
-
 
 func _on_Timer_timeout():
 	shoot()

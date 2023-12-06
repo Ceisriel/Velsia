@@ -1,13 +1,15 @@
 extends Spatial
 
 onready var an = $"../AnimationPlayer"
-onready var parent  =$"../.."
+onready var parent  = $"../.."
 onready var blend = 0.3
 
 
 func animations():
 	if parent.is_attacking:
-		an.play("fireball",blend)
+		an.play("magic",blend)
+	elif parent.frontstep:
+		an.play("slide", blend)	
 	elif not parent.is_on_floor() and parent.is_climbing:
 		an.play("climb",blend)			
 	elif Input.is_action_pressed("jump") and parent.is_walking:

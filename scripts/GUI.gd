@@ -27,6 +27,7 @@ func healthMult():
 func _on_FPS_timeout():
 	if Input.is_action_just_pressed("inventory"):
 		inventory.visible = !inventory.visible
+
 	debug_memory.text = "Memory: %.3f MB" % (OS.get_static_memory_usage() / (1024.0 * 1024.0))
 	updatelabels()
 	healthMult()
