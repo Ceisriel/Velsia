@@ -1,0 +1,21 @@
+{
+    "Tree Branch" :{
+        "itemCategory": "Resource",
+        "StackSize": 5000,
+        "Description": "A sturdy branch"
+    },
+    "Slime Potion": {
+        "itemCategory": "Consumable",
+        "AddHealth": 5,
+        "AddEnergy": 32, 
+        "StackSize": 5000,
+        "Description": "It smells like medicine"
+    },
+    "Iron Sword": {
+        "itemCategory": "Sword",
+        "itemAttack": 3,
+        "ItemSpeed": 0.75,
+        "StackSize": 5000,
+        "Description": "Rusted Sword"
+    }
+}
