@@ -268,7 +268,7 @@ func stiffCamera():
 			player_mesh.rotation.y = lerp_angle(player_mesh.rotation.y, atan2(direction.x, direction.z) - rotation.y, FPS * angular_acceleration)	
 func jump():
 	if Input.is_action_pressed("jump") and is_on_floor():
-		vertical_velocity = Vector3.UP * jump_force * 3
+		vertical_velocity = Vector3.UP * jump_force * 2.5
 	if Input.is_action_pressed("jump") and is_swimming:
 		vertical_velocity = Vector3.UP * 5
 func _on_WaterDetector_area_entered(area):
