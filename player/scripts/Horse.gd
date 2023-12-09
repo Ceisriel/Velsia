@@ -1,8 +1,8 @@
 extends KinematicBody
 
-onready var eyes = $Eyes
-onready var idle_timer = $Idle
-onready var direction_change_timer = $DirectionChangeTimer
+onready var eyes = get_node("Eyes")
+onready var idle_timer = get_node("Idle")
+onready var direction_change_timer = get_node("DirectionChangeTimer")
 var target
 var originalOrientation = Quat()
 var vertical_velocity = Vector3()
@@ -48,11 +48,6 @@ func startIdleTimer():
 	# Start the timer with a random timeout between 1 and 2 seconds
 	var timeout = rand_range(id_ti_min, id_ti_max)
 	idle_timer.start(timeout)
-
-func _on_physics_process_timeout():
-	ParentCheck()
-	walk()
-	apply_gravity()
 
 func ParentCheck():
 	# Check if the parent is the root node of the scene or named "World" but not in the group "player"
@@ -100,3 +95,12 @@ func _change_direction():
 		# Restart the timer for the next direction change
 		direction_change_timer.wait_time = rand_range(ch_dir_min, ch_dir_max)
 		direction_change_timer.start()
+
+
+
+
+func _on_FPS_timeout():
+	ParentCheck()
+	walk()
+	apply_gravity()
+

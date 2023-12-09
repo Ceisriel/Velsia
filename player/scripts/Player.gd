@@ -1,18 +1,20 @@
 extends KinematicBody
-#imports
 
 var FPS = 0.04
 var mouse_captured = true
-onready var stats =$Stats
-onready var walk_sound = $AudioStreamPlayer
-onready var camera = $Camroot/h/v/Camera
-onready var camera_h_control = $Camroot/h
-onready var collision_torso = $CollisonTorso
-onready var takedamagesprite = $Takedamage/DamageView
+onready var stats =get_node("Stats")
+onready var info_sprite = get_node("InfoSprite")
+onready var walk_sound = $Walk
+onready var camera = get_node("Camroot/h/v/Camera")
+onready var camera_h_control =  get_node("Camroot/h")
+onready var collision_torso =  get_node("CollisonTorso")
+onready var stun = get_node("GetStunned")
+onready var player_mesh = get_node("Mesh")
+var has_Sword = false 
+var has_ride = false
+var has_Ride = false 
+
 var velocity := Vector3()
-# Allows to pick your character's mesh from the inspector
-export (NodePath) var PlayerCharacterMesh
-export onready var player_mesh = get_node(PlayerCharacterMesh)
 # movement variables
 export var gravity = 9.8
 export var jump_force = 5
@@ -21,7 +23,7 @@ export var walk_speed = 7
 export var run_speed = 9
 export var sprint_speed = 14
 var teleport_distance = 35
-var dash_power = 50
+var dash_power = 12
 export (float) var mouse_sense = 0.1
 #climbing
 const base_climb_speed = 4
@@ -46,7 +48,7 @@ var dash_count2 : int = 0
 var dash_timer2 : float = 0.0
 # Condition States
 var enabled_climbing = true
-var has_ride = bool()
+
 var is_riding = bool()
 var is_falling = bool()
 var is_swimming =bool()
@@ -69,10 +71,11 @@ var frontstep = bool()
 var leftstep = bool()
 var rightstep =bool()
 
-var burn_damage = 2
-var burn_interval = 1
-var damage = 300
-var rotation_speed  =  1	
+
+#mmomentary delete later 
+var has_Rcrossbow = false
+var has_Spear  = false
+
 
 # Physics values
 var direction = Vector3()
@@ -87,8 +90,7 @@ var acceleration = int()
 
 func _ready():
 	direction = Vector3.BACK.rotated(Vector3.UP, $Camroot/h.global_transform.basis.get_euler().y)
-	$Timer.connect("timeout", self, "_on_drinking_timer_timeout")
-
+	
 func movement():
 	var h_rot = $Camroot/h.global_transform.basis.get_euler().y
 	movement_speed = 0
@@ -160,6 +162,7 @@ func dodgeBack():#Doddge when in strafe mode
 		if Input.is_action_just_pressed("backward"):
 			dash_countback += 1
 		if dash_countback == 2 and dash_timerback < double_press_time:
+			stats.resolve -= 0.5 
 			horizontal_velocity = direction * dash_power
 			backstep = true
 			collision_torso.disabled = true
@@ -177,6 +180,7 @@ func dodgeFront():#Dodge when in strafe mode
 		if Input.is_action_just_pressed("forward"):
 			dash_countforward += 1
 		if dash_countforward == 2 and dash_timerforward < double_press_time:
+			stats.resolve -= 0.5 
 			horizontal_velocity = direction * dash_power *1.5
 			frontstep = true
 			collision_torso.disabled = true
@@ -194,6 +198,7 @@ func dodgeLeft():#Dodge when in strafe mode
 		if Input.is_action_just_pressed("left"):
 			dash_countleft += 1
 		if dash_countleft == 2 and dash_timerleft < double_press_time:
+			stats.resolve -= 0.5 
 			horizontal_velocity = direction * dash_power
 			collision_torso.disabled = true
 			enabled_climbing = false
@@ -211,6 +216,7 @@ func dodgeRight():#Dodge when in strafe mode
 		if Input.is_action_just_pressed("right"):
 			dash_countright += 1
 		if dash_countright == 2 and dash_timerright < double_press_time :
+			stats.resolve -= 0.5 
 			horizontal_velocity = direction * dash_power
 			collision_torso.disabled = true
 			enabled_climbing = false
@@ -220,7 +226,7 @@ func dodgeRight():#Dodge when in strafe mode
 			enabled_climbing = true
 			rightstep = false
 func teleport():
-	if Input.is_action_just_pressed("blink"):
+	if Input.is_action_just_pressed("teleport"):
 		var teleport_vector = direction.normalized() * teleport_distance
 		var teleport_position = translation + teleport_vector
 		var collision = move_and_collide(teleport_vector)
@@ -230,22 +236,16 @@ func teleport():
 func climbing():
 	if is_on_wall():
 		if  Input.is_action_pressed("jump"):
-			#if strength >= 0.99:
+			if stats.strength >= 0.99:
 				vertical_velocity = Vector3.UP * climb_speed 
 				horizontal_velocity = direction * climb_speed
 				is_climbing = true
 				is_swimming = false
-		#	else:
-				#is_climbing = false
-				
+			else:
+				is_climbing = false
 	else:
 			is_climbing = false
 func mouseMode():
-	if not is_cursor:
-		if Input.is_action_pressed("attack"):
-					is_aiming = true
-		else:
-					is_aiming = false	
 	if Input.is_action_just_pressed("aim"):
 		is_aiming = !is_aiming
 	# Toggle mouse mode
@@ -270,7 +270,7 @@ func stiffCamera():
 			player_mesh.rotation.y = lerp_angle(player_mesh.rotation.y, atan2(direction.x, direction.z) - rotation.y, FPS * angular_acceleration)	
 func jump():
 	if Input.is_action_pressed("jump") and is_on_floor():
-		vertical_velocity = Vector3.UP * jump_force * 2.5
+		vertical_velocity = Vector3.UP * jump_force * 3
 	if Input.is_action_pressed("jump") and is_swimming:
 		vertical_velocity = Vector3.UP * 5
 func _on_WaterDetector_area_entered(area):
@@ -299,27 +299,36 @@ func gravity():
 		is_falling = false	
 func interpol():
 	horizontal_velocity = horizontal_velocity.linear_interpolate(direction.normalized() * movement_speed, acceleration * FPS)
+func takeDamage(damage):
+	stats.health -= damage 
+	info_sprite.showDamageTaken(damage)
 func walksound():
-	if is_walking != was_walking:
-		if is_walking:
-			walk_sound.play()
-		else:
-			walk_sound.stop()
-
-		was_walking = is_walking
+	if not stun.is_stunned:
+		if is_walking != was_walking:
+			if is_walking:
+				walk_sound.play()
+			else:
+				walk_sound.stop()
+			was_walking = is_walking
+	if stun.is_stunned:
+		is_walking = false
+		walk_sound.stop()
 func _on_FPS_timeout(): #artificial _process() using a timer 
-	walksound()
+	if not stun.is_stunned:
+			jump()
+			if stats.resolve > 0.5: 
+				dodgeBack()
+				dodgeFront()
+				dodgeLeft()
+				dodgeRight()	
+			movement()
+			climbing()
+			teleport()
 	mouseMode()		
 	stiffCamera()	
-	climbing()
 	ridingCollision()
-	movement()
-	dodgeBack()
-	dodgeFront()
-	dodgeLeft()
-	dodgeRight()	
 	gravity()
 	interpol()	
-	jump()
+	walksound()
 
-	
+
